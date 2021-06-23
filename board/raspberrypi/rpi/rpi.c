@@ -25,6 +25,7 @@
 #endif
 #include <watchdog.h>
 #include <dm/pinctrl.h>
+#include <string.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -387,8 +388,9 @@ static void set_serial_number(void)
 	ALLOC_CACHE_ALIGN_BUFFER(struct msg_get_board_serial, msg, 1);
 	int ret;
 	char serial_string[17] = { 0 };
+	char serial_string_short[7] = { 0 };
 
-	if (env_get("serial#"))
+	if (env_get("serial#") && env_get("serial_num"))
 		return;
 
 	BCM2835_MBOX_INIT_HDR(msg);
@@ -404,6 +406,9 @@ static void set_serial_number(void)
 	snprintf(serial_string, sizeof(serial_string), "%016llx",
 		 msg->get_board_serial.body.resp.serial);
 	env_set("serial#", serial_string);
+
+	strncat(serial_string_short, serial_string + 8, 8);
+	env_set("serial_num", serial_string_short);
 }
 
 int misc_init_r(void)
