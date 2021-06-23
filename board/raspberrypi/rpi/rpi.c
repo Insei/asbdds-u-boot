@@ -508,6 +508,7 @@ int ft_board_setup(void *blob, struct bd_info *bd)
 	 * node exists for the "real" graphics driver.
 	 */
 	lcd_dt_simplefb_add_node(blob);
+	lcd_dt_simplefb_enable_existing_node(blob);
 
 #ifdef CONFIG_EFI_LOADER
 	/* Reserve the spin table */
