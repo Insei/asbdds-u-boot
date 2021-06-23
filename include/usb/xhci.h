@@ -16,6 +16,7 @@
 #ifndef HOST_XHCI_H_
 #define HOST_XHCI_H_
 
+#include <usb.h>
 #include <phys2bus.h>
 #include <reset.h>
 #include <asm/types.h>
@@ -1295,5 +1296,7 @@ static inline void *xhci_bus_to_virt(struct xhci_ctrl *ctrl, dma_addr_t addr)
 {
 	return phys_to_virt(dev_bus_to_phys(xhci_to_dev(ctrl), addr));
 }
+
+extern void xhci_pci_fixup(struct udevice *dev);
 
 #endif /* HOST_XHCI_H_ */
